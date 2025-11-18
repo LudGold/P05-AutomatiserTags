@@ -1,0 +1,27 @@
+﻿# Dossiers et fichiers d'environnement
+.venv
+venv/
+env/
+__pycache__/
+
+# Fichiers Python compilés
+*.pyc
+
+# Notebooks et fichiers de résultats temporaires
+.ipynb_checkpoints
+*checkpoint.ipynb
+
+# Données (Très Important !)
+data/
+datasets/
+*.csv
+*.xlsx
+*.parquet
+*.json
+
+# Modèles entraînés (Très Important !)
+*.pkl
+*.h5
+*.joblib
+models/
+mlruns/
