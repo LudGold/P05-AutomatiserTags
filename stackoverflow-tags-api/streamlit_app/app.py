@@ -60,7 +60,7 @@ if st.button(" Prédire les tags", type="primary"):
             except Exception as e:
                 st.error(f"Erreur : {str(e)}")
     else:
-        st.warning("Veuillez entrer une question.")
+        st.warning("Posez votre question.")
 
 # Footer
 st.markdown("---")

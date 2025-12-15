@@ -2,14 +2,16 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from app.model import predict_tags, load_models
 
-# Charger les modèles au démarrage
-load_models()
-
 app = FastAPI(
     title="StackOverflow Tags Predictor",
     description="API de suggestion de tags pour les questions StackOverflow",
     version="1.0.0"
 )
+
+# Charger les modèles au démarrage (PAS à l'import)
+@app.on_event("startup")
+def startup_event():
+    load_models()
 
 
 class Question(BaseModel):
@@ -37,9 +39,9 @@ def health_check():
 def predict(question: Question):
     if not question.text.strip():
         raise HTTPException(status_code=400, detail="La question ne peut pas être vide")
-    
+
     tags, scores = predict_tags(question.text, top_k=question.top_k)
-    
+
     return PredictionResponse(
         question=question.text,
         predicted_tags=tags,
