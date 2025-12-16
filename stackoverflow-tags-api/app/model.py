@@ -47,7 +47,7 @@ def load_models():
 
         classifier = joblib.load(clf_path)
         mlb = joblib.load(mlb_path)
-        w2v_model = Word2Vec.load(w2v_path)w2v_bin= KeyedVectors.load_word2vec_format(w2v_path, binary=True)
+        w2v_model = KeyedVectors.load_word2vec_format(w2v_path, binary=True)
 
 
     return classifier, mlb, w2v_model
