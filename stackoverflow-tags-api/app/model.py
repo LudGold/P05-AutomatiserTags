@@ -51,7 +51,7 @@ def load_models():
 
     return classifier, mlb, w2v_model
 
-    def predict_tags(text, top_k=5):
+def predict_tags(text, top_k=5):
     clf, mlb_model, w2v = load_models()
 
     tokens = preprocess_text(text)
@@ -64,7 +64,7 @@ def load_models():
     scores = [round(float(probas[i]), 4) for i in top_indices]
 
     return tags, scores
-    
+
 def predict_tags(text, top_k=5):
     """Prédit les tags pour une question donnée."""
     clf, mlb_model, w2v = load_models()
