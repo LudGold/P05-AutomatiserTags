@@ -64,4 +64,20 @@ def load_models():
     scores = [round(float(probas[i]), 4) for i in top_indices]
 
     return tags, scores
+    
+def predict_tags(text, top_k=5):
+    """Prédit les tags pour une question donnée."""
+    clf, mlb_model, w2v = load_models()
+
+    tokens = preprocess_text(text)
+    vector = text_to_vector(tokens, w2v, vector_size=100)
+    vector = vector.reshape(1, -1)
+
+    probas = clf.predict_proba(vector)[0]
+    top_indices = np.argsort(probas)[::-1][:top_k]
+
+    tags = [mlb_model.classes_[i] for i in top_indices]
+    scores = [round(float(probas[i]), 4) for i in top_indices]
+
+    return tags, scores
 
