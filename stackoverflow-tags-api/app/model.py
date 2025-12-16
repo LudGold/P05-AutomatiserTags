@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import joblib
-from gensim.models import Word2Vec
+from gensim.models import KeyedVectors
 from huggingface_hub import hf_hub_download
 from app.preprocessing import preprocess_text
 
@@ -13,7 +13,7 @@ MODELS_DIR = "models"
 
 CLASSIFIER_PATH = os.path.join(MODELS_DIR, "w2v_classifier.pkl")
 MLB_PATH = os.path.join(MODELS_DIR, "mlb.pkl")
-W2V_PATH = os.path.join(MODELS_DIR, "word2vec.model")
+W2V_PATH = os.path.join(MODELS_DIR, "word2vec.bin")
 
 classifier = None
 mlb = None
@@ -43,13 +43,30 @@ def load_models():
     if classifier is None or mlb is None or w2v_model is None:
         clf_path = _ensure_file(CLASSIFIER_PATH, "w2v_classifier.pkl")
         mlb_path = _ensure_file(MLB_PATH, "mlb.pkl")
-        w2v_path = _ensure_file(W2V_PATH, "word2vec.model")
+        w2v_path = _ensure_file(W2V_PATH, "word2vec.bin")
 
         classifier = joblib.load(clf_path)
         mlb = joblib.load(mlb_path)
-        w2v_model = Word2Vec.load(w2v_path)
+        w2v_model = Word2Vec.load(w2v_path)w2v_model = KeyedVectors.load_word2vec_format(w2v_path, binary=True)
+
 
     return classifier, mlb, w2v_model
+
+def text_to_vector(tokens, model, vector_size=100):
+    """
+    Convertit une liste de tokens en vecteur moyen Word2Vec.
+    Reproduit exactement la vectorisation utilisée à l'entraînement.
+    """
+    vectors = []
+    for word in tokens:
+        if word in model:
+            vectors.append(model[word])
+    
+    if len(vectors) == 0:
+        # Si aucun mot n'est dans le vocabulaire, retourne un vecteur nul
+        return np.zeros(vector_size)
+    
+    return np.mean(vectors, axis=0)
 
 def predict_tags(text, top_k=5):
     clf, mlb_model, w2v = load_models()
@@ -65,19 +82,5 @@ def predict_tags(text, top_k=5):
 
     return tags, scores
 
-def predict_tags(text, top_k=5):
-    """Prédit les tags pour une question donnée."""
-    clf, mlb_model, w2v = load_models()
 
-    tokens = preprocess_text(text)
-    vector = text_to_vector(tokens, w2v, vector_size=100)
-    vector = vector.reshape(1, -1)
-
-    probas = clf.predict_proba(vector)[0]
-    top_indices = np.argsort(probas)[::-1][:top_k]
-
-    tags = [mlb_model.classes_[i] for i in top_indices]
-    scores = [round(float(probas[i]), 4) for i in top_indices]
-
-    return tags, scores
 
