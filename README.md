@@ -57,6 +57,7 @@ L'interface s'ouvre sur : **http://localhost:8501**
 
 ## 4. Lancer les tests
 ```bash
+“Word2Vec vectors loaded from binary format to ensure CI compatibility”
 cd stackoverflow-tags-api
 py -m unittest tests.test_api -v
 ```
