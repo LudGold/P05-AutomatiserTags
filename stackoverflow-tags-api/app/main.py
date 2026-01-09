@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import Response
 from pydantic import BaseModel
 from app.model import predict_tags, load_models
 
@@ -23,6 +24,11 @@ class PredictionResponse(BaseModel):
     question: str
     predicted_tags: list
     confidence_scores: list
+
+
+@app.get("/favicon.ico")
+def favicon():
+    return Response(status_code=204)  # No Content
 
 
 @app.get("/")

@@ -1,18 +1,19 @@
 # StackOverflow Tags Predictor
 
-API de suggestion automatique de tags pour les questions StackOverflow.
+Projet de Machine Learning pour suggérer automatiquement des tags aux questions StackOverflow.
+Ce projet compare 4 approches (TF-IDF, Word2Vec, BERT, USE) et déploie le meilleur modèle (Word2Vec) via une API FastAPI sur le cloud
 
 ## Structure du projet
 ```
 stackoverflow-tags-api/
-├── app/                    # Code de l'API FastAPI
+├── app/                   # Code de l'API FastAPI
 │   ├── main.py            # Endpoints API
 │   ├── model.py           # Chargement modèle et prédiction
 │   └── preprocessing.py   # Prétraitement du texte
-├── models/                 # Modèles sauvegardés (non versionnés)
+├── models/                # Modèles sauvegardés (non versionnés)
 │   ├── w2v_classifier.pkl
 │   ├── mlb.pkl
-│   └── word2vec.model
+│   └── word2vec.bin
 ├── tests/                  # Tests unitaires
 ├── streamlit_app/          # Interface de démo
 └── .github/workflows/      # CI/CD GitHub Actions

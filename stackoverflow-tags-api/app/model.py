@@ -26,10 +26,10 @@ def _ensure_file(local_path: str, filename: str) -> str:
     if os.path.exists(local_path):
         return local_path
 
-    # Télécharge depuis HF et retourne le chemin exact
+    # Télécharger depuis HF et retourner le chemin exact
     return hf_hub_download(
         repo_id=HF_REPO,
-        filename=filename,            # tes fichiers sont à la racine du repo
+        filename=filename,            # les fichiers sont à la racine du repo
         revision=HF_REVISION,
         token=HF_TOKEN,
         local_dir=MODELS_DIR,
