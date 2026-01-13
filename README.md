@@ -2,85 +2,40 @@
 
 Projet de Machine Learning pour suggérer automatiquement des tags aux questions StackOverflow.
 Ce projet compare 4 approches (TF-IDF, Word2Vec, BERT, USE) et déploie le meilleur modèle (Word2Vec) via une API FastAPI sur le cloud
+L'objectif étant de Développer un algorithme de Machine Learning qui suggère automatiquement les 5 tags les plus pertinents pour une question technique, afin d'aider les nouveaux utilisateurs de StackOverflow
 
 ## Structure du projet
-```
-stackoverflow-tags-api/
-├── app/                   # Code de l'API FastAPI
-│   ├── main.py            # Endpoints API
-│   ├── model.py           # Chargement modèle et prédiction
-│   └── preprocessing.py   # Prétraitement du texte
-├── models/                # Modèles sauvegardés (non versionnés)
-│   ├── w2v_classifier.pkl
-│   ├── mlb.pkl
-│   └── word2vec.bin
-├── tests/                  # Tests unitaires
-├── streamlit_app/          # Interface de démo
-└── .github/workflows/      # CI/CD GitHub Actions
-```
 
-## Installation
-```bash
-cd stackoverflow-tags-api
-pip install -r requirements.txt
-```
+P05_Projet_tags_StackOverflow/
+│
+├── notebooks/
+│   ├── 01_analyse_exploratoire.ipynb       # Exploration et prétraitement des données
+│   ├── 02_requete_api_stackoverflow.ipynb  # Test de l'API Stack Exchange
+│   ├── 03_approche_non_supervisee_LDA.ipynb # Approche LDA (non supervisée)
+│   └── 04_approche_supervisee_mlflow.ipynb  # Modèles supervisés + MLflow
+│
+├── stackoverflow-tags-api/                  # API de prédiction (déployée)
+│   ├── app/                                 # Code FastAPI
+│   ├── models/                              # Modèles ML
+│   ├── tests/                               # Tests unitaires
+│   ├── streamlit_app/                       # Interface de démonstration
+│   ├── requirements.txt                     # Dépendances API
+│   └── README.md                            # Documentation API
+│
+├── mlruns/                                  # Tracking MLflow
+├── data/                                    # Données (CSV)
+│
+├── Note_Technique_MLOps.docx                # Étude MLOps (Kedro, EvidentlyAI...)
+├── Presentation_P05.pptx                    # Support de soutenance
+│
+├── requirements.txt                         # Dépendances
+└── README.md                                
 
-## 1. Lancer MLflow UI
+## Liens importants 
 
-Pour visualiser les expérimentations :
-```bash
-cd P05_Projet_tags_StackOverflow
-mlflow ui
-```
-
-Puis ouvrir : **http://127.0.0.1:5000**
-
-## 2. Lancer l'API
-```bash
-cd stackoverflow-tags-api
-py -m uvicorn app.main:app --reload
-```
-
-L'API tourne sur : **http://127.0.0.1:8000**
-
-- Documentation Swagger : **http://127.0.0.1:8000/docs**
-- Health check : **http://127.0.0.1:8000/health**
-
-## 3. Lancer l'interface Streamlit
-
-Dans un **nouveau terminal** (garder l'API active) :
-```bash
-cd stackoverflow-tags-api
-streamlit run streamlit_app/app.py
-```
-
-L'interface s'ouvre sur : **http://localhost:8501**
-
-## 4. Lancer les tests
-```bash
-“Word2Vec vectors loaded from binary format to ensure CI compatibility”
-cd stackoverflow-tags-api
-py -m unittest tests.test_api -v
-```
-
-## Utilisation de l'API
-
-### Endpoint POST /predict
-```json
-{
-  "text": "How do I read a CSV file in Python using pandas?",
-  "top_k": 5
-}
-```
-
-### Réponse
-```json
-{
-  "question": "How do I read a CSV file in Python using pandas?",
-  "predicted_tags": ["python", "csv", "pandas", "dataframe", "file"],
-  "confidence_scores": [0.99, 0.85, 0.72, 0.65, 0.52]
-}
-```
+API déployée https://p05-automatisertags.onrender.com/docs
+GitHub https://github.com/LudGold/P05-AutomatiserTags 
+Modèles sur HuggingFace https://huggingface.co/LudGold/stackoverflow-tags-models
 
 ## Résultats des modèles
 
@@ -91,4 +46,23 @@ py -m unittest tests.test_api -v
 | USE      | 0.259    | 0.629     | 572         |
 | TF-IDF   | 0.107    | 0.506     | 92          |
 
-**Modèle déployé : Word2Vec** (meilleur compromis performance/temps)
+**Modèle déployé : Word2Vec + Logistic Regression** (meilleur compromis performance/temps)
+
+## Installation pour les notebooks
+pip install -r requirements.txt
+
+## 1. Lancer MLflow UI
+
+Pour visualiser les expérimentations :
+```bash
+cd P05_Projet_tags_StackOverflow
+mlflow ui
+```
+Puis ouvrir : **http://127.0.0.1:5000**
+
+## 2. Lancer l'API en local
+```bash
+cd stackoverflow-tags-api
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```

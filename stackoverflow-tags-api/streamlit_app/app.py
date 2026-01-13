@@ -7,11 +7,12 @@ st.set_page_config(
     layout="centered"
 )
 
-# URL de l'API (local ou production)
+# URL de l'API (local)
 API_URL = st.sidebar.text_input(
     "URL de l'API",
-    value="http://127.0.0.1:8000"
+    value="https://p05-automatisertags.onrender.com"
 )
+
 
 st.title(" StackOverflow Tags Predictor")
 st.markdown("Entrez une question technique et obtenez des suggestions de tags.")
