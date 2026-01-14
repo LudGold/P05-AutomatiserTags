@@ -6,31 +6,28 @@ L'objectif étant de Développer un algorithme de Machine Learning qui suggère 
 
 ## Structure du projet
 
-P05_Projet_tags_StackOverflow/
-│
-├── notebooks/
-│   ├── 01_analyse_exploratoire.ipynb       # Exploration et prétraitement des données
-│   ├── 02_requete_api_stackoverflow.ipynb  # Test de l'API Stack Exchange
-│   ├── 03_approche_non_supervisee_LDA.ipynb # Approche LDA (non supervisée)
-│   └── 04_approche_supervisee_mlflow.ipynb  # Modèles supervisés + MLflow
-│
-├── stackoverflow-tags-api/                  # API de prédiction (déployée)
-│   ├── app/                                 # Code FastAPI
-│   ├── models/                              # Modèles ML
-│   ├── tests/                               # Tests unitaires
-│   ├── streamlit_app/                       # Interface de démonstration
-│   ├── requirements.txt                     # Dépendances API
-│   └── README.md                            # Documentation API
-│
-├── mlruns/                                  # Tracking MLflow
-├── data/                                    # Données (CSV)
-│
-├── Note_Technique_MLOps.docx                # Étude MLOps (Kedro, EvidentlyAI...)
-├── Presentation_P05.pptx                    # Support de soutenance
-│
-├── requirements.txt                         # Dépendances
-└── README.md                                
+### Structure du projet
 
+```text
+P05_Projet_tags_StackOverflow/
+├── notebooks/                              # Exploration et prétraitement
+│   ├── 01_analyse_exploratoire.ipynb
+│   ├── 02_requete_api_stackoverflow.ipynb
+│   ├── 03_approche_non_supervisee_LDA.ipynb
+│   └── 04_approche_supervisee_mlflow.ipynb
+├── stackoverflow-tags-api/                 # API de prédiction (déployée)
+│   ├── app/                                # Code FastAPI
+│   ├── models/                             # Modèles ML sérialisés
+│   ├── tests/                              # Tests unitaires
+│   ├── streamlit_app/                      # Interface de démonstration
+│   ├── mlruns/                             # Tracking MLflow
+│   ├── requirements.txt                    # Dépendances API
+│   └── README.md                           # Doc API
+├── data/                                   # Données (CSV)
+├── Note_Technique_MLOps.docx               # Étude MLOps (Kedro, EvidentlyAI...)
+├── Presentation_P05.pptx                   # Support de soutenance
+├── requirements.txt                        # Dépendances globales
+└── README.md
 ## Liens importants 
 
 API déployée https://p05-automatisertags.onrender.com/docs
